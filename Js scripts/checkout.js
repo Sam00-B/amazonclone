@@ -1,4 +1,4 @@
-import {cart,removeFromCart,updateCartQuantity} from "../data/cart.js";
+import {cart,removeFromCart,updateCartQuantity,updateDeliveryOptions} from "../data/cart.js";
 import { products } from "../data/products.js";
 import {formatCurrencency} from "./utlis/money.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js"
@@ -78,10 +78,13 @@ function deliveryOptionsHtml(matchingProduct,item){
     const today=dayjs();
     const deliveryDate=today.add(deliveryOptions.deliveryDays,'day');
     const deliveryString=deliveryDate.format("dddd, MMMM D");
-    const priceString=deliveryOptions.priceCents===0?"Free Shipping":`$${formatCurrencency(deliveryOptions.priceCents)} -`;
+    const priceString=deliveryOptions.priceCents===0?"Free Shipping":`${formatCurrencency(deliveryOptions.priceCents)} -`;
     const isChecked=deliveryOptions.id===item.deliveryOptionId;
     deliveryOptionsHtml+=`
-      <div class="delivery-option">
+      <div class="delivery-option js-delivery-option"
+        data-product-id="${matchingProduct.id}"
+        data-delivery-options-id="${deliveryOptions.id}">
+         
                     <input type="radio"
                       ${isChecked?"checked":""}
                       class="delivery-option-input"
@@ -135,7 +138,10 @@ document.querySelectorAll(".js-update-link").forEach((link)=>{
         },{once:true})
     })
 })
-function calculateDeliveryDate(){
-  let today=dayjs();
-  let deliveryDate=today.add(5,'day');
-}
+ document.querySelectorAll(".js-delivery-option").forEach((element)=>{
+   element.addEventListener("click",()=>{
+     const{productId,deliveryOptionsId}=element.dataset;
+     updateDeliveryOptions(productId,deliveryOptionsId)
+
+   })
+ })

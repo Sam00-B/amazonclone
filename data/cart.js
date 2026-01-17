@@ -50,3 +50,15 @@ export function updateCartQuantity(productId,newQuantity){
        
     })
 }
+export function updateDeliveryOptions(productId,deliveryOptionId){
+    let matchingItem;
+        cart.forEach((cartItem)=>{
+            if (cartItem.productId===productId){
+                matchingItem=cartItem;
+            }
+        });
+    matchingItem.deliveryOptionId=deliveryOptionId;
+    saveToLocalStorage();
+
+
+}

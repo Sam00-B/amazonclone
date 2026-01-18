@@ -13,3 +13,12 @@
     deliveryDays:1,
     priceCents:999
 }]
+export function getDeliveryOption(deliveryOptionId){
+    let deliveryOption;
+      deliveryDate.forEach((options)=>{
+        if (options.id===deliveryOptionId){
+          deliveryOption=options;
+        }
+      })
+    return deliveryOption || deliveryDate[0];
+}

@@ -1,25 +1,16 @@
 import {cart,removeFromCart,updateCartQuantity,updateDeliveryOptions} from "../../data/cart.js";
-import { products } from "../../data/products.js";
+import { products,getProduct } from "../../data/products.js";
 import {formatCurrencency} from "../utlis/money.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js"
-import { deliveryDate} from "../../data/deliveryOptions.js";
+import { deliveryDate,getDeliveryOption} from "../../data/deliveryOptions.js";
 export function RenderOrderSummary(){
   let cartItemHtml="";
   cart.forEach((item)=>{
       const productId=item.productId; 
-      let matchingProduct;
-      products.forEach((product)=>{
-              if (product.id===productId){
-                  matchingProduct=product;
-              }
-      })
+      const matchingProduct=getProduct(productId);
+      
       const deliveryOptionId=item.deliveryOptionId;
-      let deliveryOption;
-      deliveryDate.forEach((options)=>{
-        if (options.id===deliveryOptionId){
-          deliveryOption=options;
-        }
-      })
+      const deliveryOption=getDeliveryOption(deliveryOptionId);
       const today=dayjs();
       const deliveryDates=today.add(deliveryOption.deliveryDays,'day');//here it is deliveryDates not deliveryDate like the function we used in below
       const deliveryString=deliveryDates.format("dddd, MMMM D");

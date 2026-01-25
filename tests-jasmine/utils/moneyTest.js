@@ -1,4 +1,4 @@
-import { formatCurrencency } from "../Js scripts/utlis/money.js";  
+import { formatCurrencency } from "../../Js scripts/utlis/money.js";  
 describe("Test Suite:formatCurrencency",()=>{
     it('converting cents to dollars test',()=>{
         expect(formatCurrencency(2095)).toEqual("$20.95");

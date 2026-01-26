@@ -1,6 +1,6 @@
 import {cart,removeFromCart,updateCartQuantity,updateDeliveryOptions} from "../../data/cart.js";
 import { products,getProduct } from "../../data/products.js";
-import {formatCurrencency} from "../utlis/money.js";
+import { formatCurrencency } from "../utlis/money.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js"
 import { deliveryDate,getDeliveryOption} from "../../data/deliveryOptions.js";
 import { RenderPaymentSummary } from "./paymentSummary.js";
@@ -20,7 +20,7 @@ export function RenderOrderSummary(){
 
       cartItemHtml+=
       `
-      <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
+      <div class="cart-item-container js-cart-item-container js-cart-item-container-${matchingProduct.id}">
               <div class="delivery-date">
                 Delivery date: ${deliveryString}
               </div>
@@ -36,7 +36,7 @@ export function RenderOrderSummary(){
                   <div class="product-price">
                       ${formatCurrencency(matchingProduct.priceCents)}
                   </div>
-                  <div class="product-quantity">
+                  <div class="product-quantity js-product-quantity-${matchingProduct.id}">
                     <span>
                       Quantity: <span class="quantity-label">${item.quantity}</span>
                     </span>
@@ -47,7 +47,7 @@ export function RenderOrderSummary(){
                       <input type="number" class="quantity-input js-quantity-input" value="${item.quantity}" min="1">
                       <button class="quantity-update-button js-quantity-update-button" data-product-id=${matchingProduct.id}>Save</button>
                     </span>
-                    <span class="delete-quantity-link link-primary js-delete-link" data-product-id=${matchingProduct.id}>
+                    <span class="delete-quantity-link link-primary js-delete-link js-delete-link-${matchingProduct.id}" data-product-id=${matchingProduct.id}>
                       Delete
                     </span>
                   </div>

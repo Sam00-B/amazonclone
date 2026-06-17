@@ -4,7 +4,35 @@ import { formatCurrencency } from "../utlis/money.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js"
 import { deliveryDate,getDeliveryOption} from "../../data/deliveryOptions.js";
 import { RenderPaymentSummary } from "./paymentSummary.js";
+
+export function updateCheckoutHeader() {
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const countElement = document.querySelector(".js-checkout-item-count");
+  if (countElement) {
+    if (totalItems === 0) {
+      countElement.innerText = "no item in the cart";
+    } else {
+      countElement.innerText = totalItems;
+    }
+  }
+}
+
+// Re-render and update header when the cart changes
+window.addEventListener("cartUpdated", () => {
+  RenderOrderSummary();
+  updateCheckoutHeader();
+});
+
 export function RenderOrderSummary(){
+  if (cart.length === 0) {
+    document.querySelector(".js-order-summary").innerHTML = `
+      <div style="text-align: center; padding: 40px; color: #999; font-size: 18px;">
+        No items in the cart
+      </div>
+    `;
+    return;
+  }
+  
   let cartItemHtml="";
   cart.forEach((item)=>{
       const productId=item.productId; 
@@ -131,7 +159,6 @@ export function RenderOrderSummary(){
         link.hidden=false;
         container.hidden=true;
         RenderPaymentSummary()
-        RenderPaymentSummary()
 
           
       },{once:true})
@@ -139,8 +166,9 @@ export function RenderOrderSummary(){
   })
   document.querySelectorAll(".js-delivery-option").forEach((element)=>{
     element.addEventListener("click",()=>{
-      const{productId,deliveryOptionsId}=element.dataset;
-      updateDeliveryOptions(productId,deliveryOptionsId)
+      const productId = element.dataset.productId;
+      const deliveryOptionId = element.dataset.deliveryOptionsId;
+      updateDeliveryOptions(productId, deliveryOptionId)
       RenderOrderSummary();
       RenderPaymentSummary();
 

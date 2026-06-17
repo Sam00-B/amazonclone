@@ -1,4 +1,4 @@
-import { RenderOrderSummary } from "./checkout/orderSummary.js";
+import { RenderOrderSummary, updateCheckoutHeader } from "./checkout/orderSummary.js";
 import { RenderPaymentSummary } from "./checkout/paymentSummary.js";
 import { loadProducts,loadProductsFetch } from "../data/products.js";
 
@@ -17,7 +17,8 @@ async function loadPage(){
     }
 
     RenderOrderSummary();
-    RenderPaymentSummary()
+    RenderPaymentSummary();
+    updateCheckoutHeader();
 }
 loadPage();
 // Promise.all([
